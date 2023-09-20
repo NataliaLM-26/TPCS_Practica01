@@ -22,16 +22,6 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
     @Override
     public Empleado save(Empleado empleado) {
         ConexionDB con=ConexionDB.getInstance();
-        /*String sql ="insert into empleados(claveempleado, nombre, dirección) values"
-                + "('"+empleado.getClave()+"','"+empleado.getNombre()+"','"+empleado.getTelefono()+"')";
-        boolean res=con.execute(sql);
-        if(res){
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO,"Se ha guardado");
-            return empleado;
-        }else{
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE,"Datos no guardaddos.");
-            return null;
-        }*/
         TransactionDB t=new TransactionDB<Empleado>(empleado){
             @Override
             public boolean execute(Connection con){
@@ -62,18 +52,6 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
 
     @Override
     public Empleado update(Empleado empleado, Long id) {
-        /*Empleado emp=findbyID(id);
-        if(emp!=null){
-            ConexionDB con=ConexionDB.getInstance();
-            String sql="Update empleados SET nombre='"+empleado.getNombre()+"', dirección='"+empleado.getDireccion()+
-                    "' where claveempleado="+id;
-            boolean bandera=con.execute(sql);
-            if (bandera){
-                emp.setNombre(empleado.getNombre());
-                emp.setDireccion(empleado.getDireccion());
-            }
-        }
-        return emp;*/
         ConexionDB con=ConexionDB.getInstance();
         TransactionDB t=new TransactionDB<Empleado>(empleado){
             @Override
@@ -103,14 +81,6 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
 
     @Override
     public boolean delete(Long id) {
-        /*Empleado emp=findbyID(id);
-        boolean pase=false;
-        if(emp!=null){
-            ConexionDB con=ConexionDB.getInstance();
-            String sql="Delete from empleados where claveempleado="+id;
-            pase=con.execute(sql);
-        }
-        return pase;*/
         ConexionDB con=ConexionDB.getInstance();
         TransactionDB t = new TransactionDB<Long>(id){
             @Override
@@ -172,23 +142,6 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
     @Override
     public List<Empleado> findAll() {
         ConexionDB con=ConexionDB.getInstance();
-        /*try{
-            ConexionDB con=ConexionDB.getInstance();
-            String sql="Select * from empleados order by claveempleado";
-            ResultSet rs=con.select(sql);
-            List<Empleado> lista=new ArrayList<>();
-            while(rs.next()){
-                Empleado e=new Empleado();
-                e.setClave(rs.getInt(1));
-                e.setNombre(rs.getString(3));
-                e.setDireccion(rs.getString(2));
-                lista.add(e);
-            }3
-            return lista;
-        }catch(SQLException ex){
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }*/
         SelectionDB s=new SelectionDB<Empleado>(null){
             @Override
             public List select(Connection con, Empleado e){

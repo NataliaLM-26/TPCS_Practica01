@@ -1,171 +1,181 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package org.uv.tpcs_practica01;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author juan
- */
 public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
-    private PreparedStatement query=null;
-    @Override
-    public Empleado save(Empleado empleado) {
-        ConexionDB con=ConexionDB.getInstance();
-        TransactionDB t=new TransactionDB<Empleado>(empleado){
-            @Override
-            public boolean execute(Connection con){
-                try{
-                    query=con.prepareStatement("insert into empleados(claveempleado, nombre, dirección)"+
-                    " values (?, ?, ?);");
-                    query.setLong(1, p.getClave());
-                    query.setString(2, p.getNombre());
-                    query.setString(3, p.getDireccion());
-                    query.execute();
-                    return true;
-                }catch(SQLException ex){
-                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
-                    return false;
-                }
-            }
-        };
-        boolean res=con.execute(t);
-        
-        if (res){
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "Se guardo");
-        }else{
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "No se guardo");
-        }
-        
-        return empleado;
-    }
 
     @Override
-    public Empleado update(Empleado empleado, Long id) {
-        ConexionDB con=ConexionDB.getInstance();
-        TransactionDB t=new TransactionDB<Empleado>(empleado){
+    public Empleado save(Empleado pojo) {
+        TransactionDB t = new TransactionDB<Empleado>(pojo) {
             @Override
-            public boolean execute(Connection con){
-                try{
-                    query=con.prepareStatement("UPDATE empleados SET nombre=?, dirección=? WHERE claveempleado=?");
-                    query.setString(1, empleado.getNombre());
-                    query.setString(2, empleado.getDireccion());
-                    query.setLong(3, id);
-                    query.execute();
+            public boolean execute(Connection con) {
+                try {
+                    String sql = "insert into empleado (clave,nombre,direccion,telefono) values "
+                            + "(?,?,?,?)";
+                    PreparedStatement pstm = con.prepareStatement(sql);
+                    pstm.setLong(1, p.getClave());
+                    pstm.setString(2, p.getNombre());
+                    pstm.setString(3, p.getDireccion());
+                    pstm.setString(4, p.getTelefono());
+                    pstm.execute();
                     return true;
-                }catch(SQLException ex){
+                } catch (SQLException ex) {
                     Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
                     return false;
-                    
                 }
             }
         };
-        boolean res=con.execute(t);
-        if(res){
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "Actualización realizada con exito.");
-        }else{
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "Actualización fallida.");
+        //asigna instancia e inyecta dependencia
+        ConexionDB con = ConexionDB.getInstance();
+        boolean res = con.execute(t);
+        return pojo;
+    }
+    
+
+    @Override
+    public Empleado update(Empleado pojo, Long id) {
+        TransactionDB t = new TransactionDB<Empleado>(pojo){
+            @Override
+            public boolean execute(Connection con) {
+                try{
+                    String sql= "UPDATE empleado SET clave=?, nombre=?, direccion=?, telefono=? WHERE id=?";
+                    PreparedStatement pstm=con.prepareStatement(sql);
+                    pstm.setLong(1, p.getClave());
+                    pstm.setString(2, p.getNombre());
+                    pstm.setString(3, p.getDireccion());
+                    pstm.setString(4, p.getTelefono());
+                    pstm.setLong(5, id);
+                    int rowsUpdate = pstm.executeUpdate();
+                    
+                    if(rowsUpdate >0){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+                    return false;
+                }
+            }
+        };
+        ConexionDB con = ConexionDB.getInstance();
+        boolean res = con.execute(t);
+        if (res) {
+            return pojo;
+        } else {
+            return null;
         }
-        return empleado;
     }
 
     @Override
     public boolean delete(Long id) {
-        ConexionDB con=ConexionDB.getInstance();
-        TransactionDB t = new TransactionDB<Long>(id){
-            @Override
-            public boolean execute(Connection con){
-                try{
-                    query=con.prepareStatement("DELETE FROM empleados WHERE claveempleado=?");
-                    query.setLong(1, id);
-                    query.execute();
-                    return true;
-                }catch(SQLException ex){
+         TransactionDB t = new TransactionDB<Boolean>(false){
+             @Override
+             public boolean execute(Connection con) {
+                 try {
+                     String sql = "DELETE FROM empleado WHERE id=?";
+                     PreparedStatement pstm = con.prepareStatement(sql);
+                     pstm.setLong(1, id);
+                     int deleted = pstm.executeUpdate();
+                     
+                     if(deleted >0){
+                         return true;
+                     } else {
+                         return false;
+                     }
+                 } catch (SQLException ex) {
                     Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
                     return false;
                 }
-            }
-        };
-        boolean res=con.execute(t);
-        if(res){
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "Eliminación realizada con exito.");
-        }else{
-            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "Eliminación fallida.");
-        }
-        return res;
+             }
+         };
+         
+        ConexionDB con = ConexionDB.getInstance();
+        return con.execute(t);
     }
 
     @Override
-    public Empleado findbyID(Long id) {
-        ConexionDB con=ConexionDB.getInstance();
-        SelectionDB s=new SelectionDB<Empleado>(null){
+    public Empleado findById(Long id) {
+        SelectionDB sel=new SelectionDB(id) {
             @Override
-            public List select(Connection con, Empleado e){
-                Empleado emp=new Empleado();
-                List<Empleado>listaEmpleado=new ArrayList<>();
-                try{
-                    query=con.prepareStatement("Select * from empleados where claveempleado=?");
-                    query.setLong(1, id);
-                    ResultSet rs=query.executeQuery();
-                    while (rs.next()){
-                        emp.setClave(rs.getLong(1));
-                        emp.setNombre(rs.getString(3));
-                        emp.setDireccion(rs.getString(2));
-                        listaEmpleado.add(emp);
+            public List select(Connection con) {
+                try {
+                    String sql = "SELECT * FROM empleado WHERE id=?";
+                    PreparedStatement pstm = con.prepareStatement(sql);
+                    pstm.setLong(1, id);
+                    ResultSet reg = pstm.executeQuery();
+                    List<Empleado> lstEmpleado = new ArrayList<>();
+
+                    while (reg.next()) {
+                        Empleado emp = new Empleado();
+                        emp.setClave(reg.getInt("clave"));
+                        emp.setNombre(reg.getString("nombre"));
+                        emp.setDireccion(reg.getString("direccion"));
+                        emp.setTelefono(reg.getString("telefono"));
+                        lstEmpleado.add(emp);
                     }
-                }catch(SQLException ex){
-                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                return listaEmpleado;
+                return lstEmpleado;
+                } catch (SQLException ex) {
+                Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+              }
             }
         };
-        
-        List<Empleado>emps=con.select(s);
-        if(!emps.isEmpty()){
-            return emps.get(0);
-        }else{
-            return null;
-        }
-        
+    ConexionDB con = ConexionDB.getInstance();
+    List<Empleado> result = con.select(sel);
+
+    // Devuelve el primer elemento de la lista si se encuentra, o null si no se encuentra ninguno.
+    return result.isEmpty() ? null : result.get(0);
     }
 
-    @Override
+   @Override
     public List<Empleado> findAll() {
-        ConexionDB con=ConexionDB.getInstance();
-        SelectionDB s=new SelectionDB<Empleado>(null){
+        SelectionDB sel=new SelectionDB(null){
             @Override
-            public List select(Connection con, Empleado e){
-                
-                List<Empleado> listEmp=new ArrayList<>();
+            public List select(Connection con) {
                 try{
-                    
-                    query=con.prepareStatement("Select * from empleados order by claveempleado");
-                    ResultSet rs=query.executeQuery();
-                    while (rs.next()){
-                        Empleado emp=new Empleado();
-                        emp.setClave(rs.getLong(1));
-                        emp.setNombre(rs.getString(3));
-                        emp.setDireccion(rs.getString(2));
-                        listEmp.add(emp);
-                    }
-                    
-                }catch(SQLException ex){
-                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+                List<Empleado> lstEmpleado=new ArrayList<>();
+                String sql="select * from empleado";
+                Statement st=null;
+                ResultSet reg=null;
+                st = con.createStatement();
+                reg = st.executeQuery(sql);
+                
+                while (reg.next()){
+                    Empleado emp= new Empleado();
+                    emp.setClave(reg.getInt(1));
+                    emp.setNombre(reg.getString(2));
+                    lstEmpleado.add(emp);
                 }
-                return listEmp;
+                return lstEmpleado;
+                }catch (SQLException ex){
+                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+                    return null;
+                }
             }
+            
         };
-        return con.select(s);
+        ConexionDB con=ConexionDB.getInstance();
+        return con.select(sel);
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+

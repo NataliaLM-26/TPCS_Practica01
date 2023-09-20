@@ -23,7 +23,7 @@ public class ConexionDB {
     
     private Connection con = null;
     
-    private ConexionDB() {
+    ConexionDB() {
 //        try {
 //            con=DriverManager.getConnection(cadena, "postgres", "pass");
 //            Logger.getLogger(ConexionDB.class.getName()).log(Level.INFO,"se conecto");

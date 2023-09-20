@@ -4,6 +4,10 @@
  */
 package org.uv.tpcs_practica01;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author miran
@@ -85,7 +89,12 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
-        EmpleadoGUI empgui= new EmpleadoGUI();
+        EmpleadoGUI empgui = null;
+        try {
+            empgui = new EmpleadoGUI();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jDesktopPane1.add(empgui);
         empgui.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed

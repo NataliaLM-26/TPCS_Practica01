@@ -1,5 +1,11 @@
 package org.uv.tpcs_practica01;
 
+import com.mysql.cj.jdbc.result.ResultSetImpl;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -18,8 +24,10 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
     /**
      * Creates new form EmpleadoGUI
      */
-    public EmpleadoGUI() {
+    public EmpleadoGUI() throws SQLException  {
         initComponents();
+        lista();
+       
     }
 
     /**
@@ -114,13 +122,10 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Clave", "Nombre", "Telefono", "Direccion"
+                "Clave", "Nombre", "Direccion", "Telefonol"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -231,8 +236,36 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         emp.setDireccion(jTextField3.getText());
         emp.setTelefono(jTextField4.getText());
         dao.update(emp, clave);
+     
     }//GEN-LAST:event_jButton3ActionPerformed
+    public void lista() throws SQLException{
+DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("clave");
+    model.addColumn("Nombre");
+    model.addColumn("Direccion");
+    model.addColumn("Telefono");
+    
+    
+     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CRUD?characterEncoding=UTF-8", "crud", "password");
+            Statement statement = connection.createStatement();
+            String query = "SELECT * from usuario"; // Cambia esta consulta según tu base de datos y tabla
+            ResultSet resultSet = statement.executeQuery(query);
+            Object[]persona = new Object[4];
+                     model=(DefaultTableModel)jTable1.getModel();
+            
+             while (resultSet.next()) {
+            persona[0]=resultSet.getInt("Clave");
+            persona[1]=resultSet.getString("Nombre");
+            persona[2]=resultSet.getInt("Telefono");
+            persona[3]=resultSet.getInt("Direccion");
+            model.addRow(persona);
 
+           
+            }
+              jTable1.setModel(model);
+
+}
+    
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
         DAOEmpleado dao = new DAOEmpleado();
@@ -248,6 +281,7 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         emp.setDireccion(jTextField3.getText());
         emp.setTelefono(jTextField4.getText());
         dao.save(emp);
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

@@ -40,7 +40,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
     
 
     @Override
-    public Empleado update(Empleado pojo, Long id) {
+    public Empleado update(Empleado pojo, int id) {
         TransactionDB t = new TransactionDB<Empleado>(pojo){
             @Override
             public boolean execute(Connection con) {

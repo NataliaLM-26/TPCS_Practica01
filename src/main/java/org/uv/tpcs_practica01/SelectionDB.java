@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class SelectionDB <T>{
     protected T p;
     
-    public SelectionDB(T p){
+    protected SelectionDB(T p){
         this.p=p;
     }
     

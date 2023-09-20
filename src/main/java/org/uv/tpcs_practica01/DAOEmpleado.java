@@ -17,7 +17,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             @Override
             public boolean execute(Connection con) {
                 try {
-                    String sql = "insert into empleado (clave,nombre,direccion,telefono) values "
+                    String sql = "insert into usuario (clave,nombre,direccion,telefono) values "
                             + "(?,?,?,?)";
                     PreparedStatement pstm = con.prepareStatement(sql);
                     pstm.setLong(1, p.getClave());
@@ -27,7 +27,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                     pstm.execute();
                     return true;
                 } catch (SQLException ex) {
-                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "2", ex);
                     return false;
                 }
             }
@@ -45,7 +45,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             @Override
             public boolean execute(Connection con) {
                 try{
-                    String sql= "UPDATE empleado SET clave=?, nombre=?, direccion=?, telefono=? WHERE id=?";
+                    String sql= "UPDATE usuario SET  nombre=?, direccion=?, telefono=? WHERE clave=?";
                     PreparedStatement pstm=con.prepareStatement(sql);
                     pstm.setLong(1, p.getClave());
                     pstm.setString(2, p.getNombre());
@@ -80,7 +80,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
              @Override
              public boolean execute(Connection con) {
                  try {
-                     String sql = "DELETE FROM empleado WHERE id=?";
+                     String sql = "DELETE FROM usuario WHERE clave=?";
                      PreparedStatement pstm = con.prepareStatement(sql);
                      pstm.setLong(1, id);
                      int deleted = pstm.executeUpdate();

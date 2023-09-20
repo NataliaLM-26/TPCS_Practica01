@@ -25,7 +25,7 @@ public class ConexionDB {
     
     private ConexionDB() {
         try {
-            con=DriverManager.getConnection(cadena+"postgres"+"laptophp");
+            con=DriverManager.getConnection(cadena,"postgres","laptophp");
             Logger.getLogger(ConexionDB.class.getName()).log(Level.INFO,"se conecto");
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE,"error", ex);

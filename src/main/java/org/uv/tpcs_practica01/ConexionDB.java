@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 public class ConexionDB {    
     private static ConexionDB cx=null;
     String bd="empleados";
-    String ip="localhost";
-    String puerto="5432";
-    String cadena="jdbc:postgresql://"+ip+":"+puerto+"/"+bd;
+    String ip="172.17.0.2";
+    String puerto="3306";
+    String cadena="jdbc:mysql://"+ip+":"+puerto+"/"+bd;
     
     public static ConexionDB getInstance(){
         if(cx==null)
@@ -25,7 +25,7 @@ public class ConexionDB {
     
     private ConexionDB() {
         try {
-            con=DriverManager.getConnection(cadena+"postgres"+"laptophp");
+            con=DriverManager.getConnection(cadena,"root","123456");
             Logger.getLogger(ConexionDB.class.getName()).log(Level.INFO,"se conecto");
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE,"error", ex);

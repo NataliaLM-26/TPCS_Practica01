@@ -50,13 +50,14 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             @Override
             public boolean execute(Connection con) {
                 try{
-                    String sql= "UPDATE empleado SET nombre=?, direccion=?, telefono=? WHERE clave=?";
-                    pstm=con.prepareStatement(sql);
+
+                    String sql= "UPDATE empleado SET  nombre=?, direccion=?, telefono=? WHERE clave=?";
+                    PreparedStatement pstm=con.prepareStatement(sql);
                     pstm.setString(1, p.getNombre());
                     pstm.setString(2, p.getDireccion());
                     pstm.setString(3, p.getTelefono());
-                    pstm.setLong(4, id);
-                    boolean rowsUpdate = pstm.execute();
+                      pstm.setLong(4, id);
+                    int rowsUpdate = pstm.executeUpdate();
                     
                     if(rowsUpdate){
                         return true;
@@ -113,7 +114,11 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                 List<Empleado> lstEmpleado = new ArrayList<>();
                 try {
                     String sql = "SELECT * FROM empleado WHERE clave=?";
+
+                    PreparedStatement pstm = con.prepareStatement(sql);
+
                     pstm = con.prepareStatement(sql);
+
                     pstm.setLong(1, id);
                     ResultSet reg = pstm.executeQuery();
 

@@ -15,12 +15,12 @@ import javax.swing.table.DefaultTableModel;
  * @author francisco
  */
 public class EmpleadoGUI extends javax.swing.JInternalFrame {
-     /**
-     * Creates new form EmpleadoGUI
-     */
+
     public EmpleadoGUI() throws SQLException  {
+        DefaultTableModel model = new DefaultTableModel();
         initComponents();
         lista();
+
     }
     boolean bandera=false;
     String mensaje1="La clave ingresada no existe.";
@@ -40,7 +40,11 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
+
+        jButton6 = new javax.swing.JButton();
+
         jButton5 = new javax.swing.JButton();
+
         panel_principal = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -52,7 +56,9 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
+
         jButton6 = new javax.swing.JButton();
+
 
         setClosable(true);
         setResizable(true);
@@ -62,11 +68,14 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jToolBar1.setRollover(true);
 
         jButton1.setText("nuevo");
+
         jButton1.setToolTipText("Nuevo Empleado");
+
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
@@ -74,7 +83,6 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jToolBar1.add(jButton1);
 
         jButton2.setText("guardar");
-        jButton2.setToolTipText("Guardar Empleado");
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -86,7 +94,6 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jToolBar1.add(jButton2);
 
         jButton3.setText("modificar ");
-        jButton3.setToolTipText("Modificar Empleado");
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -98,7 +105,6 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jToolBar1.add(jButton3);
 
         jButton4.setText("eliminar");
-        jButton4.setToolTipText("Eliminar Empleado");
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -110,21 +116,21 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jToolBar1.add(jButton4);
         jToolBar1.add(jSeparator1);
 
-        jButton5.setText("buscar ");
-        jButton5.setToolTipText("Buscar Empleado");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        jButton6.setText("Buscar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                jButton6ActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton5);
+        jToolBar1.add(jButton6);
 
         jLabel1.setText("clave ");
 
         jLabel2.setText("Nombre");
+
+        jTextField1.setText("jTextField1");
+
+        jTextField2.setText("jTextField2");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -138,7 +144,17 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Direccion");
 
+        jTextField3.setText("jTextField3");
+
         jLabel4.setText("Telefono");
+
+        jTextField4.setText("jTextField4");
+
+
+        jLabel3.setText("Direccion");
+
+        jLabel4.setText("Telefono");
+
 
         javax.swing.GroupLayout panel_principalLayout = new javax.swing.GroupLayout(panel_principal);
         panel_principal.setLayout(panel_principalLayout);
@@ -208,9 +224,13 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panel_principal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+
+                .addGap(100, 100, 100))
+
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
                 .addGap(22, 22, 22))
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,149 +247,114 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        buscar();
+
+
+        long clave = Integer.parseInt(jTextField1.getText());
+        DAOEmpleado daoempleado = new DAOEmpleado();
+        daoempleado.findById(clave);
+        
+//
+List<Empleado> stEmpleado; 
+       Empleado a =daoempleado.findById(clave) ;
+      
+
+            jTextField1.setText(Long.toString(a.getClave()));
+            jTextField2.setText(a.getNombre());
+            jTextField3.setText(a.getDireccion());
+            jTextField4.setText(a.getTelefono());
+//            
+//        }
+
+//           }
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try{
-            Empleado emp;
-            DAOEmpleado dao = new DAOEmpleado();
-            long clave = Long.parseLong(jTextField1.getText());
-            emp=dao.findById(clave);
-            if(emp!=null){
-                int pase=JOptionPane.showConfirmDialog(this, "El empleado "+clave+" sera actualizado...", "Mensaje de Confirmación", JOptionPane.YES_NO_OPTION);
-                if(pase==0){
-                    emp.setNombre(jTextField2.getText());
-                    emp.setDireccion(jTextField3.getText());
-                    emp.setTelefono(jTextField4.getText());
-                    dao.update(emp, clave);
-                    mensaje("Empleado modificado con exito!");
-                    vaciarCampos();
-                }
-            }else{
-                mensaje(mensaje1);
-            }
-        }catch(NumberFormatException ex){
-           mensaje(mensaje2);
-        }
-        try {
-            lista();
-        } catch (SQLException ex) {
-            Logger.getLogger(EmpleadoGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Empleado emp = new Empleado();
+        DAOEmpleado dao = new DAOEmpleado();
+        int clave = Integer.parseInt(jTextField1.getText());
+        emp.setClave(clave);
+        emp.setNombre(jTextField2.getText());
+        emp.setDireccion(jTextField3.getText());
+        emp.setTelefono(jTextField4.getText());
+        dao.update(emp, clave);
+     
     }//GEN-LAST:event_jButton3ActionPerformed
+   
+     public void buscar() throws SQLException{
+        
+      Empleado emp = new Empleado();
+        long clave = Integer.parseInt(jTextField1.getText());
+        DAOEmpleado daoempleado = new DAOEmpleado();
+        List<Empleado> stEmpleado =  (List<Empleado>) daoempleado.findById(clave);
+        for (Empleado emp1 : stEmpleado) {
+        
+            
+            jTextField2.setText(emp1.getNombre());
+            jTextField3.setText(emp1.getDireccion());
+            jTextField4.setText(emp1.getDireccion());
+            
+        }
+         
+     }
+    
     public void lista() throws SQLException{
-        DefaultTableModel model = new DefaultTableModel();
-        
-        model.addColumn("Clave");
-        model.addColumn("Nombre");
-        model.addColumn("Dirección");
-        model.addColumn("Telefono");
-        DAOEmpleado daoEmpleado=new DAOEmpleado();
-        List<Empleado>listaEmpleados=daoEmpleado.findAll();
-        for(Empleado empleado:listaEmpleados){
-            model.addRow(new Object[]{String.valueOf(empleado.getClave()), empleado.getNombre(),empleado.getDireccion(),empleado.getTelefono()});
-        }
-        
-        jTable1.setModel(model);
+DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("clave");
+    model.addColumn("Nombre");
+    model.addColumn("Direccion");
+    model.addColumn("Telefono");
+    
+    
+     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CRUD?characterEncoding=UTF-8", "root", "laptophp");
+            Statement statement = connection.createStatement();
+            String query = "SELECT * from empleado"; // Cambia esta consulta según tu base de datos y tabla
+            ResultSet resultSet = statement.executeQuery(query);
+            Object[]persona = new Object[4];
+                     model=(DefaultTableModel)jTable1.getModel();
+            
+             while (resultSet.next()) {
+            persona[0]=resultSet.getInt("Clave");
+            persona[1]=resultSet.getString("Nombre");
+            persona[2]=resultSet.getInt("Telefono");
+            persona[3]=resultSet.getInt("Direccion");
+            model.addRow(persona);
 
-    }
-    
-    public void vaciarCampos(){
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-    }
-    
-    public void buscar(){
-        try{
-            long clave = Long.parseLong(jTextField1.getText());
-            DAOEmpleado daoEmpleado=new DAOEmpleado();
-            Empleado emp=daoEmpleado.findById(clave);
-            if(emp!=null){
-                jTextField2.setText(emp.getNombre());
-                jTextField3.setText(emp.getDireccion());
-                jTextField4.setText(emp.getTelefono());
-            }else{
-                mensaje(mensaje1);
+           
             }
-        }catch(NumberFormatException ex){
-            mensaje(mensaje2);
-        }
-    }
+              jTable1.setModel(model);
+
+}
+     
     
-    public void mensaje(String mensaje){
-        JOptionPane.showMessageDialog(this, mensaje);
-    }
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        try{
-            DAOEmpleado dao = new DAOEmpleado();
-            long clave = Long.parseLong(jTextField1.getText());
-            Empleado emp=dao.findById(clave);
-            if(emp!=null){
-                int pase=JOptionPane.showConfirmDialog(this, "El empleado "+clave+" sera eliminado...", "Mensaje de Confirmación", JOptionPane.YES_NO_OPTION);
-                if(pase==0){
-                    dao.delete( clave);
-                    mensaje("Empleado borrado con exito!");
-                    vaciarCampos();
-                }
-            }else{
-                mensaje(mensaje1);
-            }
-        }catch(NumberFormatException ex){
-            mensaje(mensaje2);
-        }
-        try {
-            lista();
-        } catch (SQLException ex) {
-            Logger.getLogger(EmpleadoGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        DAOEmpleado dao = new DAOEmpleado();
+        long clave = Integer.parseInt(jTextField1.getText());
+        dao.delete( clave);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(bandera){    
-            try{
-                Empleado emp;
-                DAOEmpleado dao = new DAOEmpleado();
-                long clave=Long.parseLong(jTextField1.getText());
-                emp=dao.findById(clave);
-                if(emp==null){
-                    emp=new Empleado();
-                    emp.setClave (clave);
-                    emp.setNombre(jTextField2.getText());
-                    emp.setDireccion(jTextField3.getText());
-                    emp.setTelefono(jTextField4.getText());
-                    dao.save(emp);
-                    mensaje("Empleado registrado con exito!");
-                    vaciarCampos();
-                    bandera=false;
-                }else{
-                    mensaje("El empleado con clave: "+clave+" ya existe.");
-                }
-            }catch(NumberFormatException ex){
-                mensaje(mensaje2);
-            }
-            try {
-                lista();
-            } catch (SQLException ex) {
-                Logger.getLogger(EmpleadoGUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            mensaje("Por favor, da click en nuevo");
-        }
+        Empleado emp = new Empleado();
+        DAOEmpleado dao = new DAOEmpleado();
+        emp.setClave ( Integer.parseInt(jTextField1.getText()));
+        emp.setNombre(jTextField2.getText());
+        emp.setDireccion(jTextField3.getText());
+        emp.setTelefono(jTextField4.getText());
+        dao.save(emp);
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(bandera==false){
-            bandera=true;
+        try {
+            
+            lista();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmpleadoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        buscar();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -377,7 +362,6 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

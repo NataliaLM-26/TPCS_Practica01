@@ -261,7 +261,7 @@ List<Empleado> stEmpleado;
         DAOEmpleado daoempleado = new DAOEmpleado();
         List<Empleado> stEmpleado =  (List<Empleado>) daoempleado.findById(clave);
         for (Empleado emp1 : stEmpleado) {
-            // Logger.getLogger(Practica01.class.getName()).log(Level.INFO,"clave..."+emp1.getCalve()+"...nombre..."+emp1.getNombre()+"...direccion..."+emp1.getDireccion()+"...telefono..."+emp1.getTelefono());
+        
             
             jTextField2.setText(emp1.getNombre());
             jTextField3.setText(emp1.getDireccion());
@@ -298,15 +298,8 @@ DefaultTableModel model = new DefaultTableModel();
               jTable1.setModel(model);
 
 }
-        void Limpiar() {
-            DefaultTableModel model = new DefaultTableModel();
-                   model=(DefaultTableModel)jTable1.getModel();
-    int i=0;
-        while(i!=jTable1.getRowCount()){ 
-    model.removeRow(i);
-    i++;
-    }
-    }
+     
+    
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 

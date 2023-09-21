@@ -107,7 +107,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             @Override
             public List select(Connection con) {
                 try {
-                    String sql = "SELECT * FROM empleado WHERE id=?";
+                    String sql = "SELECT * FROM usuario WHERE clave=?";
                     PreparedStatement pstm = con.prepareStatement(sql);
                     pstm.setLong(1, id);
                     ResultSet reg = pstm.executeQuery();

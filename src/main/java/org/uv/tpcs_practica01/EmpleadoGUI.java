@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -25,6 +26,7 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
      * Creates new form EmpleadoGUI
      */
     public EmpleadoGUI() throws SQLException  {
+        DefaultTableModel model = new DefaultTableModel();
         initComponents();
         lista();
        
@@ -45,7 +47,7 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
-        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         panel_principal = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -57,7 +59,6 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
 
         setClosable(true);
         setResizable(true);
@@ -70,6 +71,11 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton1);
 
         jButton2.setText("guardar");
@@ -106,11 +112,13 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jToolBar1.add(jButton4);
         jToolBar1.add(jSeparator1);
 
-        jButton5.setText("buscar ");
-        jButton5.setFocusable(false);
-        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton5);
+        jButton6.setText("Buscar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton6);
 
         jLabel1.setText("clave ");
 
@@ -189,13 +197,6 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jButton6.setText("Buscar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -206,9 +207,7 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panel_principal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
-                .addGap(22, 22, 22))
+                .addGap(100, 100, 100))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,16 +215,31 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(panel_principal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jButton6))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        //joption pana :
+
+        long clave = Integer.parseInt(jTextField1.getText());
+        DAOEmpleado daoempleado = new DAOEmpleado();
+        daoempleado.findById(clave);
+        
+//
+List<Empleado> stEmpleado; 
+       Empleado a =daoempleado.findById(clave) ;
+      
+
+            jTextField1.setText(Long.toString(a.getClave()));
+            jTextField2.setText(a.getNombre());
+            jTextField3.setText(a.getDireccion());
+            jTextField4.setText(a.getTelefono());
+//            
+//        }
+
+//           }
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -238,6 +252,24 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         dao.update(emp, clave);
      
     }//GEN-LAST:event_jButton3ActionPerformed
+   
+     public void buscar() throws SQLException{
+        
+      Empleado emp = new Empleado();
+        long clave = Integer.parseInt(jTextField1.getText());
+        DAOEmpleado daoempleado = new DAOEmpleado();
+        List<Empleado> stEmpleado =  (List<Empleado>) daoempleado.findById(clave);
+        for (Empleado emp1 : stEmpleado) {
+            // Logger.getLogger(Practica01.class.getName()).log(Level.INFO,"clave..."+emp1.getCalve()+"...nombre..."+emp1.getNombre()+"...direccion..."+emp1.getDireccion()+"...telefono..."+emp1.getTelefono());
+            
+            jTextField2.setText(emp1.getNombre());
+            jTextField3.setText(emp1.getDireccion());
+            jTextField4.setText(emp1.getDireccion());
+            
+        }
+         
+     }
+    
     public void lista() throws SQLException{
 DefaultTableModel model = new DefaultTableModel();
     model.addColumn("clave");
@@ -265,6 +297,13 @@ DefaultTableModel model = new DefaultTableModel();
               jTable1.setModel(model);
 
 }
+//        void Limpiar() {
+//            DefaultTableModel model = new DefaultTableModel();
+//    for (int i=0;i<=jTable1.getRowCount();i++){ 
+//    model.removeRow(i);
+//    i=i+1;
+//    }
+//    }
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
@@ -284,13 +323,20 @@ DefaultTableModel model = new DefaultTableModel();
        
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            lista();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmpleadoGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

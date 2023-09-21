@@ -10,7 +10,10 @@ import java.util.logging.Logger;
 
 public class ConexionDB {    
     private static ConexionDB cx=null;
-    String cadena="jdbc:postgresql://localhost:5432/empleados";
+    String bd="empleados";
+    String ip="localhost";
+    String puerto="3306";
+    String cadena="jdbc:mysql://"+ip+":"+puerto+"/"+bd;
     
     public static ConexionDB getInstance(){
         if(cx==null)

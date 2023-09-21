@@ -10,16 +10,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
-
+    private PreparedStatement pstm=null;
     @Override
     public Empleado save(Empleado pojo) {
         TransactionDB t = new TransactionDB<Empleado>(pojo) {
             @Override
             public boolean execute(Connection con) {
                 try {
-                    String sql = "insert into usuario (clave,nombre,direccion,telefono) values "
+                    String sql = "insert into empleado (clave,nombre,direccion,telefono) values "
                             + "(?,?,?,?)";
-                    PreparedStatement pstm = con.prepareStatement(sql);
+                    pstm = con.prepareStatement(sql);
                     pstm.setLong(1, p.getClave());
                     pstm.setString(2, p.getNombre());
                     pstm.setString(3, p.getDireccion());
@@ -35,26 +35,30 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
         //asigna instancia e inyecta dependencia
         ConexionDB con = ConexionDB.getInstance();
         boolean res = con.execute(t);
+        if (res){
+            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "Se guardo");
+        }else{
+            Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "No se guardo");
+        }
         return pojo;
     }
     
 
     @Override
-    public Empleado update(Empleado pojo, int id) {
+    public Empleado update(Empleado pojo, Long id) {
         TransactionDB t = new TransactionDB<Empleado>(pojo){
             @Override
             public boolean execute(Connection con) {
                 try{
-                    String sql= "UPDATE empleado SET  nombre=?, direccion=?, telefono=? WHERE clave=?";
-                    PreparedStatement pstm=con.prepareStatement(sql);
-                    pstm.setLong(1, p.getClave());
-                    pstm.setString(2, p.getNombre());
-                    pstm.setString(3, p.getDireccion());
-                    pstm.setString(4, p.getTelefono());
-                    pstm.setLong(5, id);
-                    int rowsUpdate = pstm.executeUpdate();
+                    String sql= "UPDATE empleado SET nombre=?, direccion=?, telefono=? WHERE clave=?";
+                    pstm=con.prepareStatement(sql);
+                    pstm.setString(1, p.getNombre());
+                    pstm.setString(2, p.getDireccion());
+                    pstm.setString(3, p.getTelefono());
+                    pstm.setLong(4, id);
+                    boolean rowsUpdate = pstm.execute();
                     
-                    if(rowsUpdate >0){
+                    if(rowsUpdate){
                         return true;
                     } else {
                         return false;
@@ -80,8 +84,8 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
              @Override
              public boolean execute(Connection con) {
                  try {
-                      String sql = "DELETE FROM empleado WHERE clave=?";
-                     PreparedStatement pstm = con.prepareStatement(sql);
+                     String sql = "DELETE FROM empleado WHERE clave=?";
+                     pstm = con.prepareStatement(sql);
                      pstm.setLong(1, id);
                      int deleted = pstm.executeUpdate();
                      
@@ -106,12 +110,12 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
         SelectionDB sel=new SelectionDB(id) {
             @Override
             public List select(Connection con) {
+                List<Empleado> lstEmpleado = new ArrayList<>();
                 try {
-                    String sql = "SELECT * FROM empleado WHERE id=?";
-                    PreparedStatement pstm = con.prepareStatement(sql);
+                    String sql = "SELECT * FROM empleado WHERE clave=?";
+                    pstm = con.prepareStatement(sql);
                     pstm.setLong(1, id);
                     ResultSet reg = pstm.executeQuery();
-                    List<Empleado> lstEmpleado = new ArrayList<>();
 
                     while (reg.next()) {
                         Empleado emp = new Empleado();
@@ -121,11 +125,10 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                         emp.setTelefono(reg.getString("telefono"));
                         lstEmpleado.add(emp);
                     }
-                return lstEmpleado;
                 } catch (SQLException ex) {
-                Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-              }
+                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return lstEmpleado;
             }
         };
     ConexionDB con = ConexionDB.getInstance();
@@ -140,25 +143,26 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
         SelectionDB sel=new SelectionDB(null){
             @Override
             public List select(Connection con) {
-                try{
                 List<Empleado> lstEmpleado=new ArrayList<>();
+                try{
                 String sql="select * from empleado";
-                Statement st=null;
                 ResultSet reg=null;
-                st = con.createStatement();
-                reg = st.executeQuery(sql);
+                pstm = con.prepareStatement(sql);
+                reg = pstm.executeQuery(sql);
                 
                 while (reg.next()){
                     Empleado emp= new Empleado();
                     emp.setClave(reg.getInt(1));
                     emp.setNombre(reg.getString(2));
+                    emp.setTelefono(reg.getString(4));
+                    emp.setDireccion(reg.getString(3));
                     lstEmpleado.add(emp);
                 }
-                return lstEmpleado;
                 }catch (SQLException ex){
                     Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
-                    return null;
                 }
+                
+                return lstEmpleado;
             }
             
         };

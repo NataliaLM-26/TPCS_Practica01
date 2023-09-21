@@ -123,7 +123,7 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Clave", "Nombre", "Teléfono", "Dirección"
+                "Clave", "Nombre", "Dirección", "Teléfono"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -246,7 +246,11 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         emp.setDireccion(txtDireccion.getText());
         emp.setTelefono(txtTelefono.getText());
         dao.update(emp, clave);
-     
+        
+        txtClave.setText("");
+        txtNombre.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
     }//GEN-LAST:event_btnModificarActionPerformed
     
     private void lista() throws SQLException{
@@ -266,8 +270,8 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         while (resultSet.next()) {
             persona[0]=resultSet.getInt("Clave");
             persona[1]=resultSet.getString("Nombre");
-            persona[2]=resultSet.getString("Telefono");
-            persona[3]=resultSet.getString("Direccion");
+            persona[2]=resultSet.getString("Direccion");
+            persona[3]=resultSet.getString("Telefono");
             model.addRow(persona);
         }
           tblDatos.setModel(model);
@@ -296,6 +300,10 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBuscarTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTodoActionPerformed
+        txtClave.setText("");
+        txtNombre.setText("");
+        txtDireccion.setText("");
+        txtTelefono.setText("");
         try {
             lista();
         } catch (SQLException ex) {

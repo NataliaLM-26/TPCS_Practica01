@@ -47,11 +47,11 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                 try{
                     String sql= "UPDATE empleado SET  nombre=?, direccion=?, telefono=? WHERE clave=?";
                     PreparedStatement pstm=con.prepareStatement(sql);
-                    pstm.setLong(1, p.getClave());
-                    pstm.setString(2, p.getNombre());
-                    pstm.setString(3, p.getDireccion());
-                    pstm.setString(4, p.getTelefono());
-                    pstm.setLong(5, id);
+                    //pstm.setLong(1, p.getClave());
+                    pstm.setString(1, p.getNombre());
+                    pstm.setString(2, p.getDireccion());
+                    pstm.setString(3, p.getTelefono());
+                    pstm.setLong(4, id);
                     int rowsUpdate = pstm.executeUpdate();
                     
                     if(rowsUpdate >0){
@@ -60,7 +60,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                         return false;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, "no actualiza", ex);
                     return false;
                 }
             }

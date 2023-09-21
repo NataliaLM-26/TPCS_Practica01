@@ -10,7 +10,7 @@ public abstract class TransactionDB <T>{
     //es una agregación
     protected T p;
     
-    public TransactionDB(T p){
+    protected TransactionDB(T p){
         this.p=p;
     }
     

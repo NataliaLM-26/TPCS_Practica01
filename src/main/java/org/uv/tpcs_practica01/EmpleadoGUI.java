@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -15,16 +16,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EmpleadoGUI extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form EmpleadoGUI
-     */
     public EmpleadoGUI() throws SQLException  {
         DefaultTableModel model = new DefaultTableModel();
         initComponents();
         lista();
-       
-    }
 
+    }
+    boolean bandera=false;
+    String mensaje1="La clave ingresada no existe.";
+    String mensaje2="El valor ingresado en el campo clave debe ser numerico";       
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,7 +40,11 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JToolBar.Separator();
+
         jButton6 = new javax.swing.JButton();
+
+        jButton5 = new javax.swing.JButton();
+
         panel_principal = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -53,6 +57,9 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
 
+        jButton6 = new javax.swing.JButton();
+
+
         setClosable(true);
         setResizable(true);
         setTitle("Catalogo Empleados");
@@ -61,10 +68,14 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         jToolBar1.setRollover(true);
 
         jButton1.setText("nuevo");
+
+        jButton1.setToolTipText("Nuevo Empleado");
+
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
+
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
@@ -139,6 +150,12 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
 
         jTextField4.setText("jTextField4");
 
+
+        jLabel3.setText("Direccion");
+
+        jLabel4.setText("Telefono");
+
+
         javax.swing.GroupLayout panel_principalLayout = new javax.swing.GroupLayout(panel_principal);
         panel_principal.setLayout(panel_principalLayout);
         panel_principalLayout.setHorizontalGroup(
@@ -190,6 +207,13 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        jButton6.setText("Buscar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -200,7 +224,13 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panel_principal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+
                 .addGap(100, 100, 100))
+
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6)
+                .addGap(22, 22, 22))
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,12 +238,16 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(panel_principal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jButton6))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+
 
         long clave = Integer.parseInt(jTextField1.getText());
         DAOEmpleado daoempleado = new DAOEmpleado();
@@ -319,6 +353,7 @@ DefaultTableModel model = new DefaultTableModel();
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

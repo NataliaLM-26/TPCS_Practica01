@@ -246,6 +246,7 @@ List<Empleado> stEmpleado;
         Empleado emp = new Empleado();
         DAOEmpleado dao = new DAOEmpleado();
         int clave = Integer.parseInt(jTextField1.getText());
+        emp.setClave(clave);
         emp.setNombre(jTextField2.getText());
         emp.setDireccion(jTextField3.getText());
         emp.setTelefono(jTextField4.getText());
@@ -297,13 +298,15 @@ DefaultTableModel model = new DefaultTableModel();
               jTable1.setModel(model);
 
 }
-//        void Limpiar() {
-//            DefaultTableModel model = new DefaultTableModel();
-//    for (int i=0;i<=jTable1.getRowCount();i++){ 
-//    model.removeRow(i);
-//    i=i+1;
-//    }
-//    }
+        void Limpiar() {
+            DefaultTableModel model = new DefaultTableModel();
+                   model=(DefaultTableModel)jTable1.getModel();
+    int i=0;
+        while(i!=jTable1.getRowCount()){ 
+    model.removeRow(i);
+    i++;
+    }
+    }
     
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
@@ -325,6 +328,7 @@ DefaultTableModel model = new DefaultTableModel();
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
+            
             lista();
         } catch (SQLException ex) {
             Logger.getLogger(EmpleadoGUI.class.getName()).log(Level.SEVERE, null, ex);

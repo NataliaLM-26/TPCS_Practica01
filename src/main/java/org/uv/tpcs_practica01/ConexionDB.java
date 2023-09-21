@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 public class ConexionDB {    
     private static ConexionDB cx=null;
     String bd="empleados";
-    String ip="172.17.0.2";
+    String ip="localhost";
     String puerto="3306";
     String cadena="jdbc:mysql://"+ip+":"+puerto+"/"+bd;
     

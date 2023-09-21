@@ -17,7 +17,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             @Override
             public boolean execute(Connection con) {
                 try {
-                    String sql = "insert into usuario (clave,nombre,direccion,telefono) values "
+                    String sql = "insert into empleado (clave,nombre,direccion,telefono) values "
                             + "(?,?,?,?)";
                     pstm = con.prepareStatement(sql);
                     pstm.setLong(1, p.getClave());
@@ -45,21 +45,20 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
     
 
     @Override
-    public Empleado update(Empleado pojo, int id) {
+    public Empleado update(Empleado pojo, Long id) {
         TransactionDB t = new TransactionDB<Empleado>(pojo){
             @Override
             public boolean execute(Connection con) {
                 try{
-                    String sql= "UPDATE empleado SET clave=?, nombre=?, direccion=?, telefono=? WHERE id=?";
+                    String sql= "UPDATE empleado SET nombre=?, direccion=?, telefono=? WHERE clave=?";
                     pstm=con.prepareStatement(sql);
-                    pstm.setLong(1, p.getClave());
-                    pstm.setString(2, p.getNombre());
-                    pstm.setString(3, p.getDireccion());
-                    pstm.setString(4, p.getTelefono());
-                    pstm.setLong(5, id);
-                    int rowsUpdate = pstm.executeUpdate();
+                    pstm.setString(1, p.getNombre());
+                    pstm.setString(2, p.getDireccion());
+                    pstm.setString(3, p.getTelefono());
+                    pstm.setLong(4, id);
+                    boolean rowsUpdate = pstm.execute();
                     
-                    if(rowsUpdate >0){
+                    if(rowsUpdate){
                         return true;
                     } else {
                         return false;
@@ -85,7 +84,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
              @Override
              public boolean execute(Connection con) {
                  try {
-                     String sql = "DELETE FROM empleado WHERE id=?";
+                     String sql = "DELETE FROM empleado WHERE clave=?";
                      pstm = con.prepareStatement(sql);
                      pstm.setLong(1, id);
                      int deleted = pstm.executeUpdate();
@@ -113,7 +112,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             public List select(Connection con) {
                 List<Empleado> lstEmpleado = new ArrayList<>();
                 try {
-                    String sql = "SELECT * FROM empleado WHERE id=?";
+                    String sql = "SELECT * FROM empleado WHERE clave=?";
                     pstm = con.prepareStatement(sql);
                     pstm.setLong(1, id);
                     ResultSet reg = pstm.executeQuery();
@@ -155,6 +154,8 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                     Empleado emp= new Empleado();
                     emp.setClave(reg.getInt(1));
                     emp.setNombre(reg.getString(2));
+                    emp.setTelefono(reg.getString(4));
+                    emp.setDireccion(reg.getString(3));
                     lstEmpleado.add(emp);
                 }
                 }catch (SQLException ex){

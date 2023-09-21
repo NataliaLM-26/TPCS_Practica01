@@ -14,14 +14,14 @@ public class TPCS_Practica01 {
         emp.setDireccion("dir");
         emp.setTelefono("1258");
         dao.save(emp);
-        System.out.println("Cambios listos!");
+        Logger.getLogger(TPCS_Practica01.class.getName()).log(Level.INFO, "Cambios Listos");
         
         Logger.getLogger(TPCS_Practica01.class.getName()).log(Level.INFO, "Hello I am David");
         
         DAOEmpleado daoEmpleado=new DAOEmpleado();
         List<Empleado> lista=daoEmpleado.findAll();
         for (Empleado e:lista){
-            System.out.println(e.getNombre());
+            Logger.getLogger(TPCS_Practica01.class.getName()).log(Level.INFO, e.getNombre());
         }
     }
 }

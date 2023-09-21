@@ -7,7 +7,14 @@ import java.util.logging.Logger;
 public class TPCS_Practica01 {
 
     public static void main(String[] args) {
-        Logger.getLogger(TPCS_Practica01.class.getName()).log(Level.INFO, "Hello World");
+        Empleado emp = new Empleado();
+        DAOEmpleado dao = new DAOEmpleado();
+        emp.setClave(589);
+        emp.setNombre("nombre");
+        emp.setDireccion("dir");
+        emp.setTelefono("1258");
+        dao.save(emp);
+        System.out.println("Cambios listos!");
         
         Logger.getLogger(TPCS_Practica01.class.getName()).log(Level.INFO, "Hello I am David");
         

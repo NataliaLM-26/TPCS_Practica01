@@ -17,7 +17,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             @Override
             public boolean execute(Connection con) {
                 try {
-                    String sql = "insert into empleado (clave,nombre,direccion,telefono) values "
+                    String sql = "insert into usuario (clave,nombre,direccion,telefono) values "
                             + "(?,?,?,?)";
                     pstm = con.prepareStatement(sql);
                     pstm.setLong(1, p.getClave());
@@ -27,7 +27,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                     pstm.execute();
                     return true;
                 } catch (SQLException ex) {
-                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.INFO, "2", ex);
                     return false;
                 }
             }
@@ -45,7 +45,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
     
 
     @Override
-    public Empleado update(Empleado pojo, Long id) {
+    public Empleado update(Empleado pojo, int id) {
         TransactionDB t = new TransactionDB<Empleado>(pojo){
             @Override
             public boolean execute(Connection con) {
@@ -170,15 +170,3 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-

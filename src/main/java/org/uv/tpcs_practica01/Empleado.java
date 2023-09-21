@@ -6,7 +6,7 @@ public class Empleado {
         return clave;
     }
 
-    public void setClave(long clave) {
+    public void setClave(int clave) {
         this.clave = clave;
     }
 

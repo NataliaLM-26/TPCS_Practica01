@@ -47,11 +47,10 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                 try{
                     String sql= "UPDATE empleado SET  nombre=?, direccion=?, telefono=? WHERE clave=?";
                     PreparedStatement pstm=con.prepareStatement(sql);
-                    //pstm.setLong(1, p.getClave());
                     pstm.setString(1, p.getNombre());
                     pstm.setString(2, p.getDireccion());
                     pstm.setString(3, p.getTelefono());
-                    pstm.setLong(4, id);
+                      pstm.setLong(4, id);
                     int rowsUpdate = pstm.executeUpdate();
                     
                     if(rowsUpdate >0){
@@ -60,7 +59,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
                         return false;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, "no actualiza", ex);
+                    Logger.getLogger(DAOEmpleado.class.getName()).log(Level.SEVERE, null, ex);
                     return false;
                 }
             }
@@ -107,7 +106,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             @Override
             public List select(Connection con) {
                 try {
-                    String sql = "SELECT * FROM empleado WHERE id=?";
+                    String sql = "SELECT * FROM empleado WHERE clave=?";
                     PreparedStatement pstm = con.prepareStatement(sql);
                     pstm.setLong(1, id);
                     ResultSet reg = pstm.executeQuery();
@@ -167,3 +166,15 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+

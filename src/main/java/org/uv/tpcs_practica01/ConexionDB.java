@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 public class ConexionDB {    
     private static ConexionDB cx=null;
-    String cadena="jdbc:postgresql://localhost:5432/empleados";
     
     public static ConexionDB getInstance(){
         if(cx==null)
@@ -19,9 +18,16 @@ public class ConexionDB {
     }
     
     private Connection con = null;
- 
+    
     ConexionDB() {
-        try {
+//        try {
+//            con=DriverManager.getConnection(cadena, "postgres", "pass");
+//            Logger.getLogger(ConexionDB.class.getName()).log(Level.INFO,"se conecto");
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ConexionDB.class.getName()).log(Level.SEVERE,"error1", ex);
+//        }
+//    }
+   try {
             String url= "jdbc:mysql://localhost:3306/CRUD?characterEncoding=UTF-8"; // crear database CRUD
             con =DriverManager.getConnection(url, "root", "laptophp");  //usuario sql con privilegios y contraseña
             Logger.getLogger(ConexionDB.class.getName()).log(Level.INFO,"se conecto");

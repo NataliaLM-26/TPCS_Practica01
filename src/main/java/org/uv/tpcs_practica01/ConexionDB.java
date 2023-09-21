@@ -19,16 +19,16 @@ public class ConexionDB {
     }
     
     private Connection con = null;
- 
+  
     ConexionDB() {
-        try {
+      try {
             String url= "jdbc:mysql://localhost:3306/CRUD?characterEncoding=UTF-8"; // crear database CRUD
             con =DriverManager.getConnection(url, "root", "laptophp");  //usuario sql con privilegios y contraseña
             Logger.getLogger(ConexionDB.class.getName()).log(Level.INFO,"se conecto");
         } catch (SQLException ex) {
              Logger.getLogger(ConexionDB.class.getName()).log(Level.INFO,"2",ex);
         }
-    }
+     }
     
     public boolean execute(String sql){
         Statement st= null;

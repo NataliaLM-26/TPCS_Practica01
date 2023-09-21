@@ -17,7 +17,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
             @Override
             public boolean execute(Connection con) {
                 try {
-                    String sql = "insert into empleado (clave,nombre,direccion,telefono) values "
+                    String sql = "insert into usuario (clave,nombre,direccion,telefono) values "
                             + "(?,?,?,?)";
                     PreparedStatement pstm = con.prepareStatement(sql);
                     pstm.setLong(1, p.getClave());
@@ -80,7 +80,7 @@ public class DAOEmpleado implements IDAOGeneral<Empleado, Long>{
              @Override
              public boolean execute(Connection con) {
                  try {
-                     String sql = "DELETE FROM empleado WHERE clave=?";
+                      String sql = "DELETE FROM empleado WHERE clave=?";
                      PreparedStatement pstm = con.prepareStatement(sql);
                      pstm.setLong(1, id);
                      int deleted = pstm.executeUpdate();

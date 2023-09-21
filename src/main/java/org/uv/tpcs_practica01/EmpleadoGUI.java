@@ -109,18 +109,18 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         btnBuscarTodo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnBuscarTodo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarTodoActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        jToolBar1.add(btnBuscarTodo);
-
+        jToolBar1.add(jButton2);
+      
         jLabel1.setText("Clave:");
-
+      
         jLabel2.setText("Nombre:");
-
+      
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+              
             },
             new String [] {
                 "Clave", "Nombre", "Teléfono", "Dirección"
@@ -141,9 +141,9 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
             tblDatos.getColumnModel().getColumn(2).setResizable(false);
             tblDatos.getColumnModel().getColumn(3).setResizable(false);
         }
-
+      
         jLabel3.setText("Dirección:");
-
+        
         jLabel4.setText("Teléfono:");
 
         btnBuscar.setBackground(new java.awt.Color(100, 138, 255));
@@ -151,10 +151,10 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
-
+        
         javax.swing.GroupLayout panel_principalLayout = new javax.swing.GroupLayout(panel_principal);
         panel_principal.setLayout(panel_principalLayout);
         panel_principalLayout.setHorizontalGroup(
@@ -213,7 +213,7 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
-
+      
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -230,7 +230,7 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
                 .addGap(0, 0, 0)
                 .addComponent(panel_principal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
+      
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -303,14 +303,14 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBuscarTodoActionPerformed
 
-
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnBuscarTodo;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

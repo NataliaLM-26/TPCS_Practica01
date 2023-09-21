@@ -123,7 +123,7 @@ public class EmpleadoGUI extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Clave", "Nombre", "Dirección", "Teléfono"
+                "Clave", "Nombre", "Teléfono", "Dirección"
             }
         ) {
             boolean[] canEdit = new boolean [] {
